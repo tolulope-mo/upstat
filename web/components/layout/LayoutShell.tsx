@@ -2,7 +2,7 @@
 import MenuBar from "./menuBar/MenuBar";
 import { usePathname } from "next/navigation";
 
-const noMenuRoutes = ["/", "/login", "/signup"];
+const noMenuRoutes = ["/", "/login", "/signup", "/not-found"];
 
 export default function LayoutShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

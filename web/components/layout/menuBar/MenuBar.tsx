@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import logo from '../../assets/logos/upstat-green.png'
+import logo from '../../assets/logos/upstat-vector.png'
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
@@ -23,14 +23,14 @@ const MenuBar = () => {
   const router = useRouter();
 
   const menuJsx = menudata.map((el) => (
-    <MenuItem href={el.path} key={el.id} isActive={pathname === el.path}>
+    <MenuItem href={el.path} key={el.id} $isActive={pathname === el.path}>
       <Icon icon={el.icon} />
       {isOpen && <p>{el.name}</p>}
     </MenuItem>
   ));
 
   const accountJsx = accountData.map((el) => (
-    <MenuItem href={el.path} key={el.id} isActive={pathname === el.path}>
+    <MenuItem href={el.path} key={el.id} $isActive={pathname === el.path}>
       <Icon icon={el.icon} />
       {isOpen && <p>{el.name}</p>}
     </MenuItem>
