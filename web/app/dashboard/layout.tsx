@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { SessionProvider } from "next-auth/react";
+import { ThemeProvider } from "styled-components";
 import { AppProvider } from "@/components/contexts/AppContext";
 import MenuBar from "@/components/layout/menuBar/MenuBar";
 import DashboardHeader from "@/components/layout/header/DashboardHeader";
+import { darkTheme } from "@/components/libs/theme2";
 import styled from "styled-components";
 import { Icon } from "@iconify/react";
 import { usePathname } from "next/navigation";
@@ -75,29 +78,33 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const pathname = usePathname();
 
   return (
-    <AppProvider>
-      <DashboardLayoutWrapper>
-        <MenuBar isMobileOpen={isMobileMenuOpen} closeMobileMenu={() => setIsMobileMenuOpen(false)} />
-        
-        <MainContentCanvas>
-          <DashboardHeader onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
-          <ScrollableDashboardBody>
-            {children}
-          </ScrollableDashboardBody>
-        </MainContentCanvas>
+    <SessionProvider>
+      <ThemeProvider theme={darkTheme}>
+        <AppProvider>
+          <DashboardLayoutWrapper>
+            <MenuBar isMobileOpen={isMobileMenuOpen} closeMobileMenu={() => setIsMobileMenuOpen(false)} />
+            
+            <MainContentCanvas>
+              <DashboardHeader onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+              <ScrollableDashboardBody>
+                {children}
+              </ScrollableDashboardBody>
+            </MainContentCanvas>
 
-        <MobileBottomNavBar>
-          {menudata.slice(0, 4).map((item) => (
-            <BottomNavItem 
-              href={item.path} 
-              key={item.id} 
-              $active={pathname === item.path}
-            >
-              <Icon icon={item.icon} />
-            </BottomNavItem>
-          ))}
-        </MobileBottomNavBar>
-      </DashboardLayoutWrapper>
-    </AppProvider>
+            <MobileBottomNavBar>
+              {menudata.slice(0, 4).map((item) => (
+                <BottomNavItem 
+                  href={item.path} 
+                  key={item.id} 
+                  $active={pathname === item.path}
+                >
+                  <Icon icon={item.icon} />
+                </BottomNavItem>
+              ))}
+            </MobileBottomNavBar>
+          </DashboardLayoutWrapper>
+        </AppProvider>
+      </ThemeProvider>
+    </SessionProvider>
   );
 }

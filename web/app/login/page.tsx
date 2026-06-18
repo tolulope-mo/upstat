@@ -7,6 +7,8 @@ import Image from "next/image";
 import women from "../../components/assets/images/women.png";
 import Link from "next/link";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Notification from "@/components/helpers/notification/Notification";
 import {
   SignupContainer,
@@ -18,17 +20,33 @@ import {
 export default function SignupPage() {
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   const handleSignup = async (): Promise<void> => {
     if (loading) return;
     setLoading(true);
     setError("");
     try {
-      console.log("Redirecting to Google...");
+      const result = await signIn("google", {
+        redirect: false,
+        callbackUrl: "/dashboard",
+      });
+
+      if (result?.error) {
+        setError(result.error || "Authentication failed");
+        setLoading(false);
+        return;
+      }
+
+      if (result?.ok) {
+        router.push("/dashboard");
+      } else {
+        setError("Unexpected error during authentication");
+        setLoading(false);
+      }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Google signup failed";
+      const errorMessage = err instanceof Error ? err.message : "Google login failed";
       setError(errorMessage);
-    } finally {
       setLoading(false);
     }
   };

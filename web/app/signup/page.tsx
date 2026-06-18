@@ -40,6 +40,9 @@ export default function SignupPage() {
 
       if (result?.ok) {
         router.push("/dashboard");
+      } else {
+        setError("Unexpected error during authentication");
+        setLoading(false);
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Google signup failed";
