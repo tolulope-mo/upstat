@@ -1,110 +1,155 @@
 import { styled } from "styled-components";
 import Link from "next/link";
-import { theme } from "@/components/libs/theme";
 
-const MenuBarContainer = styled.section`
-color: ${theme.colors.text};
-  background: ${theme.colors.grey.normal};
+export const MenuBarContainer = styled.section<{ $isMobileOpen: boolean; $isOpen: boolean }>`
+  color: ${(props) => props.theme.colors.text.primary};
+  background: ${(props) => props.theme.colors.surface.sidebar};
   display: flex;
   flex-direction: column;
   height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  overflow-y: auto;
+  flex-shrink: 0;    
+  width: ${({ $isOpen }) => ($isOpen ? "260px" : "78px")};
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s ease;
+  overflow: hidden;
+  border-right: 1px solid ${(props) => props.theme.colors.border.subtle};
+  z-index: 100;
 
-   &::-webkit-scrollbar {
-    display: none;
+ @media (max-width: 768px) {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 280px;
+    transform: ${({ $isMobileOpen }) => ($isMobileOpen ? "translateX(0)" : "translateX(-100%)")};
+    box-shadow: ${({ $isMobileOpen }) => ($isMobileOpen ? "10px 0 30px rgba(0,0,0,0.25)" : "none")};
   }
-
 `;
 
-const HeadSection = styled.section`
+export const HeadSection = styled.div<{ $isOpen: boolean }>`
   display: flex;
-  gap: ${theme.spacing.sm};
   align-items: center;
-  padding: 35px 8px;
+  //justify-content: ${({ $isOpen }) => ($isOpen ? 'space-between' : 'center')};
+  justify-content: space-between;
+  //flex-direction: ${({ $isOpen }) => ($isOpen ? 'row' : 'column')};
+  flex-direction: row;
+  gap: ${({ $isOpen }) => ($isOpen ? '0' : '12px')};
+  padding: 35px 20px;
+  width: 100%;
+  
+  svg, img {
+    flex-shrink: 0;
+  }
 
-  span {
-    font-size: ${theme.fonts.sizes.lg};
-    font-weight: ${theme.fonts.weights.semibold};
+   span {
+    font-size: ${(props) => props.theme.typography.sizes.lg};
+    font-weight: ${(props) => props.theme.typography.weights.semibold};
     white-space: nowrap;
   }
 
-  svg:hover {
-    transform: scale(1.1);
-  }
+  svg {
+    transition: ${(props) => props.theme.transitions.default};
+    font-size: 20px;
+    &:hover {
+      transform: scale(1.1);
+    }
+
+  @media (max-width: 768px) {
+display: none; 
 `;
 
-const MenuSection = styled.section`
+export const ScrollableMenuContent = styled.div`
   display: flex;
   flex-direction: column;
-   gap: ${theme.spacing.sm};
-  padding: ${theme.spacing.sm};
-  border-top: 1px solid ${theme.colors.white.darkActive};
-  flex-shrink: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 ${(props) => props.theme.spacing.sm} ${(props) => props.theme.spacing.lg};
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
 `;
 
-const MenuTitle = styled.p`
-   color: ${theme.colors.textMuted};
+export const MenuSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: ${(props) => props.theme.spacing.sm};
+  padding: ${(props) => props.theme.spacing.sm} 0;
+  border-top: 1px solid ${(props) => props.theme.colors.border.subtle};
+  flex-shrink: 0;
+`;
+
+export const MenuTitle = styled.p`
+  color: ${(props) => props.theme.colors.text.muted};
   text-align: left;
-  font-weight: ${theme.fonts.weights.bold};
-  font-size: ${theme.fonts.sizes.sm};
+  font-weight: ${(props) => props.theme.typography.weights.bold};
+  font-size: ${(props) => props.theme.typography.sizes.sm};
+  padding-left: 12px;
   white-space: nowrap;
   overflow: hidden;
 `;
 
-const MenuItem = styled(Link)<{ $isActive: boolean }>`
+export const MenuItem = styled(Link)<{ $isActive: boolean }>`
   display: flex;
   align-items: center;
-  gap: ${theme.spacing.sm};
+  gap: ${(props) => props.theme.spacing.md};
   justify-content: start;
-  padding: 15px;
-  border-radius: ${theme.borderRadius.md};
-  background: ${({ $isActive }) =>
-    $isActive ? theme.colors.green.darkActive : "transparent"};
-  transition: background 0.2s ease;
+  padding: 15px 12px;
+  border-radius: ${(props) => props.theme.borderRadius.md};
+  background: ${({ $isActive, theme }) => ($isActive ? theme.colors.menu.itemActive : "transparent")};
+  transition: ${(props) => props.theme.transitions.default};
   white-space: nowrap;
-  overflow: hidden;
+  
   &:hover {
-    background: ${theme.colors.green.darkHover};
+    background: ${(props) => props.theme.colors.menu.itemHover};
   }
 
   p,
   svg {
-    color: white;
+    color: ${(props) => props.theme.colors.text.primary};
     white-space: nowrap;
+    flex-shrink: 0;
+  }
+  
+  svg {
+    font-size: 20px;
   }
 `;
 
-const LogoutItem = styled.button`
-  background: ${theme.colors.green.normal};
-  justify-content: center;
+export const LogoutItem = styled.button`
+  background: ${(props) => props.theme.colors.surface.actionable || "#e11d48"};
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 16px;
   border: none;
   outline: none;
-  padding: 15px 30px;
-  border-radius: 10px;
+  padding: 15px; 
+  width: 100%;
+  border-radius: ${(props) => props.theme.borderRadius.md};
+  cursor: pointer;
+  transition: ${(props) => props.theme.transitions.default};
 
   &:hover {
-    background: rgba(0, 224, 158, 0.62);
+    filter: brightness(1.1);
   }
 
-  p,
   svg {
-    color: white;
-    white-space: nowrap;
+    color: #ffffff;
+    font-size: 20px;
+    flex-shrink: 0;
   }
 `;
 
-export {
-  MenuBarContainer,
-  MenuSection,
-  HeadSection,
-  LogoutItem,
-  MenuTitle,
-  MenuItem,
-};
+export const BackdropOverlay = styled.div<{ $visible: boolean }>`
+  display: ${({ $visible }) => ($visible ? "block" : "none")};
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 90;
+`;

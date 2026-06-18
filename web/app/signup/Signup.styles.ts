@@ -1,14 +1,15 @@
 import styled from "styled-components";
-import { theme } from "@/components/libs/theme";
 
 export const SignupContainer = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: ${theme.colors.background};
+  background: ${(props) => props.theme.colors.surface.main};
+  color: ${(props) => props.theme.colors.text.primary};
   width: 100%;
-  padding: 0 ${theme.spacing.md};
+  padding: 0 ${(props) => props.theme.spacing.md};
+  transition: ${(props) => props.theme.transitions.themeShift};
 
   img {
     display: block;
@@ -25,7 +26,7 @@ export const SignupContainer = styled.section`
 
   @media (max-width: 768px) {
     flex-direction: column;
-    padding: ${theme.spacing.lg} ${theme.spacing.md};
+    padding: ${(props) => props.theme.spacing.lg} ${(props) => props.theme.spacing.md};
     justify-content: space-around;
 
     img {
@@ -37,7 +38,7 @@ export const SignupContainer = styled.section`
 
   @media (max-width: 480px) {
     justify-content: center;
-    gap: ${theme.spacing.xl};
+    gap: ${(props) => props.theme.spacing.xl};
 
     img {
       display: none;
@@ -51,7 +52,7 @@ export const FormSection = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: ${theme.spacing.lg};
+  gap: ${(props) => props.theme.spacing.lg};
 
   @media (max-width: 1024px) {
     width: 50%;
@@ -66,23 +67,25 @@ export const FormSection = styled.div`
 export const FormHeading = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${theme.spacing.xs};
+  gap: ${(props) => props.theme.spacing.xs};
   text-align: center;
-  font-family: ${theme.fonts.family};
+  font-family: ${(props) => props.theme.typography.fontFamily};
 
   h1 {
-    font-weight: ${theme.fonts.weights.bold};
-    font-size: ${theme.fonts.sizes.xxl};
+    font-weight: ${(props) => props.theme.typography.weights.bold};
+    font-size: ${(props) => props.theme.typography.sizes.display};
   }
 
   p {
-    font-weight: ${theme.fonts.weights.regular};
-    font-size: ${theme.fonts.sizes.md};
-    color: ${theme.colors.textMuted};
+    font-weight: ${(props) => props.theme.typography.weights.regular};
+    font-size: ${(props) => props.theme.typography.sizes.base};
+    color: ${(props) => props.theme.colors.text.muted};
   }
 
   a {
-    color: ${theme.colors.textMuted};
+    color: ${(props) => props.theme.colors.brand};
+    font-weight: ${(props) => props.theme.typography.weights.medium};
+    text-decoration: none;
 
     &:hover {
       text-decoration: underline;
@@ -91,40 +94,41 @@ export const FormHeading = styled.div`
 
   @media (max-width: 480px) {
     h1 {
-      font-size: ${theme.fonts.sizes.xl};
+      font-size: ${(props) => props.theme.typography.sizes.xl};
     }
     p {
-      font-size: ${theme.fonts.sizes.sm};
+      font-size: ${(props) => props.theme.typography.sizes.sm};
     }
   }
 `;
 
 export const GoogleBtn = styled.button`
-  gap: ${theme.spacing.sm};
-  font-family: ${theme.fonts.family};
-  font-size: ${theme.fonts.sizes.lg};
-  font-weight: ${theme.fonts.weights.regular};
-  color: ${theme.colors.white.light};
+  gap: ${(props) => props.theme.spacing.sm};
+  font-family: ${(props) => props.theme.typography.fontFamily};
+  font-size: ${(props) => props.theme.typography.sizes.lg};
+  font-weight: ${(props) => props.theme.typography.weights.regular};
+  
+  /* Adapts high-contrast button styling cleanly across mode themes */
+  color: ${(props) => props.theme.colors.text.primary};
   background: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: ${theme.spacing.sm} ${theme.spacing.md};
-  border: 1px solid ${theme.colors.white.light};
-  border-radius: ${theme.borderRadius.sm};
+  padding: ${(props) => props.theme.spacing.sm} ${(props) => props.theme.spacing.md};
+  border: 1px solid ${(props) => props.theme.colors.text.primary};
+  border-radius: ${(props) => props.theme.borderRadius.sm};
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: ${(props) => props.theme.transitions.default};
   width: 100%;
   max-width: 320px;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: ${theme.colors.white.normal};
+    background: ${(props) => props.theme.isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.05)"};
   }
 
   &:active {
     transform: scale(0.98);
-    background: rgba(255, 255, 255, 0.15);
+    background: ${(props) => props.theme.isDark ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.1)"};
   }
 
   &:disabled {
@@ -134,7 +138,7 @@ export const GoogleBtn = styled.button`
   }
 
   @media (max-width: 480px) {
-    font-size: ${theme.fonts.sizes.md};
-    padding: ${theme.spacing.sm};
+    font-size: ${(props) => props.theme.typography.sizes.base};
+    padding: ${(props) => props.theme.spacing.sm};
   }
 `;

@@ -1,5 +1,7 @@
 "use client";
 
+import { ThemeProvider } from "styled-components";
+import { darkTheme } from "@/components/libs/theme2"; 
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import women from "../../components/assets/images/women.png";
@@ -8,28 +10,23 @@ import { useState } from "react";
 import Notification from "@/components/helpers/notification/Notification";
 import {
   SignupContainer,
-  FormHeading,
   FormSection,
+  FormHeading,
   GoogleBtn,
 } from "./Login.styles";
 
-export default function LoginPage() {
+export default function SignupPage() {
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-
 
   const handleSignup = async (): Promise<void> => {
     if (loading) return;
     setLoading(true);
     setError("");
-
     try {
       console.log("Redirecting to Google...");
-
     } catch (err) {
-
-      const errorMessage = err instanceof Error ? err.message : "Google login failed";
-      console.error("Google login failed:", err);
+      const errorMessage = err instanceof Error ? err.message : "Google signup failed";
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -37,29 +34,32 @@ export default function LoginPage() {
   };
 
   return (
-    <SignupContainer>
-      <Image
-        src={women}
-        alt="women-talking"
-        style={{ width: "50%", height: "auto", alignSelf: "end" }}
-        priority 
-      />
+  
+    <ThemeProvider theme={darkTheme}>
+      <SignupContainer>
+        <Image
+          src={women}
+          alt="women-talking"
+          style={{ width: "50%", height: "auto", alignSelf: "end" }}
+          priority 
+        />
 
-      <FormSection>
-        <FormHeading>
-          <h1>Welcome back!</h1>
-          <p>
-            Don't have an account?
-            <Link href="/signup">&nbsp;Signup</Link>
-          </p>
-          {error !== "" && <Notification msg={error} type="error" />}
-        </FormHeading>
+        <FormSection>
+          <FormHeading>
+            <h1>Continue with Upstat</h1>
+            <p>
+              Don't have an account?
+              <Link href="/signup">&nbsp;Sign up</Link>
+            </p>
+            {error !== "" && <Notification msg={error} type="error" />}
+          </FormHeading>
 
-        <GoogleBtn disabled={loading} onClick={handleSignup}>
-          <Icon icon="devicon:google" />
-          <span>{loading ? "Connecting..." : "Continue with Google"}</span>
-        </GoogleBtn>
-      </FormSection>
-    </SignupContainer>
+          <GoogleBtn disabled={loading} onClick={handleSignup}>
+            <Icon icon="devicon:google" />
+            <span>{loading ? "Connecting..." : "Continue with Google"}</span>
+          </GoogleBtn>
+        </FormSection>
+      </SignupContainer>
+    </ThemeProvider>
   );
 }
