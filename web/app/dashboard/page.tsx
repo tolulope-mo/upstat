@@ -1,17 +1,16 @@
-'use client';
+"use client";
 
-import {Container} from './dashboard.styles'
+import { useDateRange } from "@/components/hooks/useDateRange";
+import DateRangeFilter from "@/components/pages/dashboard/DateRangeFilter";
+import StatsOverview from "@/components/pages/dashboard/StatsOverview";
 
-export default function Dashboard () {
-    return (
-        <Container>
-            Hellooo Helooooooooooooooooooooooooooooooooooooooooo
+export default function Dashboard() {
+  const dateRange = useDateRange();
 
-            <Container>
-            Hellooo Helooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-        </Container>
-    
-        </Container>
-    )
-
+  return (
+    <div>
+      <DateRangeFilter dateRange={dateRange} />
+      <StatsOverview range={dateRange.selected} />
+    </div>
+  );
 }

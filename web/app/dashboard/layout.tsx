@@ -4,6 +4,7 @@ import { useState } from "react";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "styled-components";
 import { AppProvider } from "@/components/contexts/AppContext";
+import { QueryProvider } from "@/components/contexts/QueryProvider";
 import MenuBar from "@/components/layout/menuBar/MenuBar";
 import DashboardHeader from "@/components/layout/header/DashboardHeader";
 import { darkTheme } from "@/components/libs/theme2";
@@ -15,7 +16,7 @@ import { menudata } from "@/components/constants/menuBar.data";
 
 const DashboardLayoutWrapper = styled.div`
   display: flex;
-  width: 100vw;
+  width: 100%;
   height: 100vh;      
   overflow: hidden;   
   background-color: ${(props) => props.theme.colors.surface.main};
@@ -33,6 +34,8 @@ const MainContentCanvas = styled.div`
 `;
 
 const ScrollableDashboardBody = styled.main`
+width: 100%;
+min-width: 0;
   flex-grow: 1;
   overflow-y: auto;
   overflow-x: hidden;
@@ -79,6 +82,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <SessionProvider>
+      <QueryProvider>
       <ThemeProvider theme={darkTheme}>
         <AppProvider>
           <DashboardLayoutWrapper>
@@ -105,6 +109,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </DashboardLayoutWrapper>
         </AppProvider>
       </ThemeProvider>
+      </QueryProvider>
     </SessionProvider>
   );
 }
