@@ -6,8 +6,8 @@ export const Row = styled.div`
   width: 100%;
   flex-wrap: wrap;
   justify-content: space-between;
-    gap: 12px;
-    margin: ${(props) => props.theme.spacing.xl} 0;
+  gap: 12px;
+  margin: ${(props) => props.theme.spacing.xl} 0;
   @media (max-width: 480px) {
     gap: 16px;
   }
@@ -21,10 +21,7 @@ padding: ${(props) => props.theme.spacing.xl} ${(props) => props.theme.spacing.l
 height: 110px;
 justify-content: space-between;
 flex: 1 1 201px;
-min-width: 201px;
 border-radius: 10px;
-flex: 1 1 201px;
-min-width: 201px;
 background: ${(props) => props.theme.colors.surface.card};
 
   @media (max-width: 480px) {
